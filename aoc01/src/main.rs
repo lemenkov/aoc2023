@@ -7,12 +7,14 @@ fn main() {
     if let Ok(lines) = read_lines("./input") {
         let mut sum = 0;
         for raw_line in lines {
-            if let Ok(line) = raw_line {
+            if let Ok(parsed_line) = raw_line {
+                let line = replace_numbers(parsed_line);
                 let vec = parse_digits(line.as_str());
                 println!("LINE: {} {}", vec[0]*10 + vec[ vec.len() - 1],  line);
                 sum += vec[0]*10 + vec[ vec.len() - 1]
             }
         }
+        //replace_numbers("HELLO".to_string());
         println!("SUM: {}", sum);
     }
 }
@@ -30,4 +32,14 @@ fn parse_digits(t_num: &str) -> Vec<u32> {
         .chars()
         .filter_map(|a| a.to_digit(10))
         .collect()
+}
+
+fn replace_numbers(line: String) -> String {
+    let numbers = vec![("1", "one"), ("2", "two"), ("3", "three"), ("4", "four"), ("5", "five"), ("6", "six"), ("7", "seven"), ("8", "eight"), ("9", "nine")];
+    let mut ret = line;
+    for (n, number) in numbers.iter() {
+                ret = ret.replace(number, n);
+                println!("PASS: {} {} {}", n, number, ret);
+    };
+    ret.to_string()
 }
