@@ -7,16 +7,18 @@ fn main() {
     let rgb0= (12, 13, 14);
     if let Ok(lines) = read_lines("./input") {
         let mut sum = 0u16;
+        let mut power = 0u32;
         for raw_line in lines {
             if let Ok(line) = raw_line {
                 let (id, rgb1) = parse_line(line);
                 if compare_rgb(rgb0, rgb1) {
                     println!("LINE {}", id);
                     sum += id
-                }
+                };
+                power += get_the_power(rgb1);
             }
         }
-        println!("SUM: {}", sum);
+        println!("SUM: {} {}", sum, power);
     }
 }
 
@@ -52,4 +54,11 @@ fn compare_rgb ((red0, green0, blue0): (u8, u8, u8), (red1, green1, blue1): (u8,
     else {
         false
     }
+}
+
+fn get_the_power((red, green, blue): (u8, u8, u8)) -> u32 {
+    let r = u32::from(red);
+    let g = u32::from(green);
+    let b = u32::from(blue);
+    r*g*b
 }
